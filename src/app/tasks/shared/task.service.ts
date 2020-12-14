@@ -9,4 +9,10 @@ export class TaskService {
   getTask(): Task[] {
     return tasks;
   }
+
+  deleteTask(): Task[] {
+    return tasks.filter(value => {
+      return value.completed
+    });
+  }
 }
