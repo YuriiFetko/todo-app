@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Task} from '../shared/task.model';
 import {TaskService} from '../shared/task.service';
-import {tasks} from "../shared/mock-tasks";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-task-list',
@@ -13,23 +13,49 @@ export class TaskListComponent implements OnInit {
   constructor(private taskService: TaskService) {
   }
 
+  public form: FormGroup;
   public tasks: Task[];
 
   ngOnInit(): void {
     this.tasks = this.taskService.getTask();
-    console.log(this.tasks)
+
+    this.form = new FormGroup({
+      title: new FormControl(null, [
+        Validators.required,
+        Validators.pattern('.*(\\S(\\s+)?){3,}')])
+    });
   }
 
-  deleteTask() {
-    // this.taskService.deleteTask()
-
-    this.tasks.map(x => {
-      if (x.completed) {
-        this.tasks = this.tasks.slice(1)
-        console.log(this.tasks)
-      }
-    })
-    console.log(this.tasks)
+  addTask(): void {
+    if (this.form.invalid) {
+      return;
+    }
+    const task: Task = {
+      id: this.getLastIdTask(),
+      title: this.form.value.title,
+      completed: false
+    };
+    this.tasks.push(task);
+    this.form.reset();
   }
 
+  getLastIdTask(): number {
+    if (this.tasks.length === 0) {
+      return 1;
+    } else {
+      return (
+        Math.max.apply(
+          Math, this.tasks.map((task) => task.id)
+        ) + 1
+      );
+    }
+  }
+
+  deleteTask(): void {
+    this.tasks = this.taskService.deleteTask();
+  }
+
+  toggleDoneTask(task): void {
+    task.completed = !task.completed;
+  }
 }

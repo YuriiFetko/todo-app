@@ -1,6 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {TaskService} from "../shared/task.service";
-import {Task} from "../shared/task.model";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -12,8 +10,14 @@ export class HeaderComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit(): void {
+  @Output() delete: EventEmitter<any> = new EventEmitter<any>();
 
+
+  ngOnInit(): void {
+  }
+
+  deleteTask(): void {
+    this.delete.emit();
   }
 
 }

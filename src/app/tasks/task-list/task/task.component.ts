@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Task} from '../../shared/task.model';
 
 @Component({
@@ -12,8 +12,13 @@ export class TaskComponent implements OnInit {
   }
 
   @Input() task: Task;
+  @Output() toggleDone: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   ngOnInit(): void {
+  }
+
+  toggle(): void {
+    this.toggleDone.emit();
   }
 
 }

@@ -6,13 +6,13 @@ import {tasks} from './mock-tasks';
   providedIn: 'root'
 })
 export class TaskService {
+
   getTask(): Task[] {
     return tasks;
   }
 
   deleteTask(): Task[] {
-    return tasks.filter(value => {
-      return value.completed
-    });
+    return tasks.filter((todo) => !todo.completed);
   }
 }
+

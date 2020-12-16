@@ -1,4 +1,43 @@
-<button (click)="deleteTask()">Delete</button>
-<div class="tasks" *ngFor="let task of tasks">
-  <app-task [task]="task"></app-task>
+<app-header (delete)="deleteTask()"></app-header>
+<div class="container">
+  <div class="tasks" *ngIf="tasks.length !== 0; else notFoundTask">
+    <div class="task" *ngFor="let task of tasks">
+      <app-task [task]="task" (toggleDone)="toggleDoneTask(task)"></app-task>
+    </div>
+  </div>
+
+  <ng-template #notFoundTask>
+    <div class="tasks">
+      Tasks are missing.
+    </div>
+  </ng-template>
+
+  <form [formGroup]="form" (ngSubmit)="addTask()">
+    <div
+      class="formControl">
+      <div class="add_task_block">
+        <label for="title" class="col-form-label">
+          <button type="submit" class="add_btn" [disabled]="form.invalid">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+            </svg>
+          </button>
+        </label>
+        <input type="text" id="title" placeholder="Task text" formControlName="title" class="form-control">
+      </div>
+      <div
+        *ngIf="(form.get('title').touched && form.get('title').dirty ) && form.get('title').invalid"
+        class="validation">
+        <small *ngIf="form.get('title').errors.required">Text required.</small>
+      </div>
+      <div
+        *ngIf="form.get('title').touched && form.get('title').invalid"
+        class="validation">
+        <small *ngIf="form.get('title').errors.pattern">The text must contain minimum 3 symbols without spaces.</small>
+      </div>
+    </div>
+  </form>
+
 </div>
+
+

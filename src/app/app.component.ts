@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {from, interval, Observable, range, timer} from 'rxjs';
-import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
