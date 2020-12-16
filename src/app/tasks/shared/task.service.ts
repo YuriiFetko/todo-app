@@ -11,8 +11,5 @@ export class TaskService {
     return tasks;
   }
 
-  deleteTask(): Task[] {
-    return tasks.filter((todo) => !todo.completed);
-  }
 }
 

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Task} from '../shared/task.model';
 import {TaskService} from '../shared/task.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {tasks} from '../shared/mock-tasks';
 
 @Component({
   selector: 'app-task-list',
@@ -52,7 +53,7 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(): void {
-    this.tasks = this.taskService.deleteTask();
+    this.tasks = this.tasks.filter((todo) => todo.completed === false);
   }
 
   toggleDoneTask(task): void {
